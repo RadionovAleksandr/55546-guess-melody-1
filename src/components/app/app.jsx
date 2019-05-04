@@ -1,9 +1,20 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
-const App = () => {
-  return <div>
-    <h1>React Application</h1>
-  </div>;
+import WelcomeScreen from '../welcome-screen/welcome-screen.jsx';
+
+const App = (props) => {
+  const {gameTime, errorCount} = props;
+
+  App.propTypes = {
+    gameTime: propTypes.number.isRequired,
+    errorCount: propTypes.number.isRequired
+  };
+
+  return <WelcomeScreen
+    time={gameTime}
+    errorCount={errorCount}
+  />;
 };
 
 export default App;
