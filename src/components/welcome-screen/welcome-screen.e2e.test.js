@@ -6,7 +6,7 @@ import WelcomeScreen from './welcome-screen.jsx';
 Enzyme.configure({adapter: new Adapter()});
 
 describe(`e2e test WelcomeScreen`, () => {
-  it(`Test button start click`, () => {
+  it(`Test button play click`, () => {
     const startGameFn = jest.fn();
     const tree = shallow(<WelcomeScreen
       time={0}
