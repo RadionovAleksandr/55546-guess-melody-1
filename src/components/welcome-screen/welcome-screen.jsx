@@ -4,17 +4,13 @@ import propTypes from 'prop-types';
 const WelcomeScreen = (props) => {
   const {time, errorCount, onButtonStartClick} = props;
 
-  WelcomeScreen.propTypes = {
-    time: propTypes.number.isRequired,
-    errorCount: propTypes.number.isRequired,
-    onButtonStartClick: propTypes.func
-  };
-
   return <section className="welcome">
     <div className="welcome__logo">
       <img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83" />
     </div>
-    <button className="welcome__button" onClick={onButtonStartClick}><span className="visually-hidden">Начать игру</span></button>
+    <button className="welcome__button" onClick={onButtonStartClick}>
+      <span className="visually-hidden">Начать игру</span>
+    </button>
     <h2 className="welcome__rules-title">Правила игры</h2>
     <p className="welcome__text">Правила просты:</p>
     <ul className="welcome__rules-list">
@@ -23,6 +19,12 @@ const WelcomeScreen = (props) => {
     </ul>
     <p className="welcome__text">Удачи!</p>
   </section>;
+};
+
+WelcomeScreen.propTypes = {
+  time: propTypes.number.isRequired,
+  errorCount: propTypes.number.isRequired,
+  onButtonStartClick: propTypes.func.isRequired
 };
 
 export default WelcomeScreen;

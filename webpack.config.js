@@ -8,10 +8,14 @@ module.exports = {
     filename: `bundle.js`,
     path: path.join(__dirname, `public`)
   },
+  devtool: `source-map`,
   devServer: {
     contentBase: path.join(__dirname, `public`),
     compress: false,
     port: 1337,
+  },
+  resolve: {
+    extensions: [`.js`, `.jsx`]
   },
   module: {
     rules: [
@@ -23,6 +27,5 @@ module.exports = {
         },
       }
     ],
-  },
-  devtool: `source-map`
+  }
 };
