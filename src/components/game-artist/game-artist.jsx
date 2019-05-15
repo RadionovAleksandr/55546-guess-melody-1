@@ -1,27 +1,44 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
-const GameArtist = ({question, onAnswer}) => {
-  const {answers} = question;
+import AudioComponent from '../audio-component/audio-component';
 
-  return <section className="game__screen">
-    <h2 className="game__title">Кто исполняет эту песню?</h2>
-    <div className="game__track">
-      <button className="track__button track__button--play" type="button" />
-      <audio />
-    </div>
+class GameArtist extends React.PureComponent {
+  constructor(props) {
+    super(props);
 
-    <form className="game__artist" onChange={onAnswer}>
-      {answers.map((it, i) => <div className="artist" key={i}>
-        <input className="artist__input visually-hidden" type="radio" name="answer" value={`artist-${i}`} id={`artist-${i}`} />
-        <label className="artist__name" htmlFor={`artist-${i}`}>
-          <img className="artist__picture" src={it.picture} alt={it.artist} />
-          {it.artist}
-        </label>
-      </div>)}
-    </form>
-  </section>;
-};
+    this.state = {
+      isPlaying: false
+    };
+  }
+
+  render() {
+    const {question, onAnswer} = this.props;
+    const {isPlaying} = this.state;
+    const {answers, song} = question;
+
+    return <section className="game__screen">
+      <h2 className="game__title">Кто исполняет эту песню?</h2>
+      <div className="game__track">
+        <AudioComponent
+          src={song.src}
+          isPlaying={isPlaying}
+          onPlayButtonClick={() => this.setState({isPlaying: !isPlaying})}
+        />
+      </div>
+
+      <form className="game__artist" onChange={onAnswer}>
+        {answers.map((it, i) => <div className="artist" key={i}>
+          <input className="artist__input visually-hidden" type="radio" name="answer" value={`artist-${i}`} id={`artist-${i}`} />
+          <label className="artist__name" htmlFor={`artist-${i}`}>
+            <img className="artist__picture" src={it.picture} alt={it.artist} />
+            {it.artist}
+          </label>
+        </div>)}
+      </form>
+    </section>;
+  }
+}
 
 GameArtist.propTypes = {
   onAnswer: propTypes.func.isRequired,
