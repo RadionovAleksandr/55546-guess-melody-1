@@ -4,6 +4,7 @@ import {configure, mount} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import App from './app';
+import {snapshotURL} from '../audio-component/audio-component';
 
 configure({adapter: new Adapter()});
 
@@ -14,7 +15,7 @@ const mock = {
       genre: `rock`,
       answers: [
         {
-          src: `path`,
+          src: snapshotURL,
           genre: `rock`,
         },
       ],
@@ -23,7 +24,7 @@ const mock = {
       type: `artist`,
       song: {
         artist: `One`,
-        src: ``,
+        src: snapshotURL,
       },
       answers: [
         {

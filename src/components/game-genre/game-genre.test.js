@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 
 import GameGenre from './game-genre';
+import {snapshotURL} from '../audio-component/audio-component';
 
 const mock = {
   question: {
@@ -9,19 +10,19 @@ const mock = {
     genre: `rock`,
     answers: [
       {
-        src: `test.mp3`,
+        src: snapshotURL,
         genre: `rock`,
       },
       {
-        src: `test.mp3`,
+        src: snapshotURL,
         genre: `blues`,
       },
       {
-        src: `test.mp3`,
+        src: snapshotURL,
         genre: `jazz`,
       },
       {
-        src: `test.mp3`,
+        src: snapshotURL,
         genre: `rock`,
       },
     ],
