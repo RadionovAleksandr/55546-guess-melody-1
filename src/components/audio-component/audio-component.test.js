@@ -1,10 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import AudioComponent from './audio-component';
+import AudioComponent, {snapshotURL} from './audio-component';
 
 const mockData = {
-  src: `path/audio.ogg`,
+  src: snapshotURL,
   isPlaying: false
 };
 

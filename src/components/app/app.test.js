@@ -2,6 +2,7 @@ import React from 'react';
 
 import renderer from 'react-test-renderer';
 import App from './app';
+import {snapshotURL} from '../audio-component/audio-component';
 
 const mock = {
   questions: [
@@ -10,7 +11,7 @@ const mock = {
       genre: `rock`,
       answers: [
         {
-          src: `path`,
+          src: snapshotURL,
           genre: `rock`,
         },
       ],
@@ -19,7 +20,7 @@ const mock = {
       type: `artist`,
       song: {
         artist: `One`,
-        src: ``,
+        src: snapshotURL,
       },
       answers: [
         {

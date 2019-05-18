@@ -2,12 +2,12 @@ import React from 'react';
 import {configure, shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import AudioComponent from './audio-component';
+import AudioComponent, {snapshotURL} from './audio-component';
 
 configure({adapter: new Adapter()});
 
 const mockData = {
-  src: `path/audio.ogg`,
+  src: snapshotURL,
   isPlaying: false
 };
 
