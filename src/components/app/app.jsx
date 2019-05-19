@@ -1,25 +1,19 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {ActionCreators} from "../../reducer";
 
 import WelcomeScreen from '../welcome-screen/welcome-screen';
-
 import GameArtist from "../game-artist/game-artist";
 import GameGener from "../game-genre/game-genre";
+import GameMistakes from "../game-mistakes/game-mistakes";
 
 const Type = {
-  ARTIST: `game--artist`,
-  GENRE: `game--genre`,
+  artist: `game--artist`,
+  genre: `game--genre`,
 };
 
-class App extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      question: -1,
-    };
-  }
-
+class App extends React.Component {
   _getScreen(question, onClick) {
     if (!question) {
       const {errorCount, gameTime} = this.props;
@@ -46,11 +40,21 @@ class App extends React.PureComponent {
     return null;
   }
 
-  render() {
-    const {questions} = this.props;
-    const {question} = this.state;
+  shouldComponentUpdate(props) {
+    const {mistakes, errorCount} = props;
 
-    return <section className={`game ${Type.ARTIST}`}>
+    if (mistakes >= errorCount) {
+      this.props.onResetGame();
+    }
+
+    return true;
+  }
+
+  render() {
+    const {questions, step, mistakes} = this.props;
+    const question = questions[step];
+
+    return <section className={`game ${question ? Type[question.type] : ``}`}>
       <header className="game__header">
         <a className="game__back" href="#">
           <span className="visually-hidden">Сыграть ещё раз</span>
@@ -73,19 +77,15 @@ class App extends React.PureComponent {
           <span className="timer__secs">00</span>
         </div>
 
-        <div className="game__mistakes">
-          <div className="wrong" />
-          <div className="wrong" />
-          <div className="wrong" />
-        </div>
+        <GameMistakes mistakes={mistakes} />
       </header>
 
-      {this._getScreen(questions[question], () => {
-        this.setState({
-          question: question + 1 >= questions.length
-            ? -1
-            : question + 1,
-        });
+      {this._getScreen(question, (userAnswer) => {
+        this.props.onUserAnswer(question, userAnswer);
+
+        if (step >= questions.length) {
+          this.props.onResetGame();
+        }
       })}
     </section>;
   }
@@ -95,6 +95,31 @@ App.propTypes = {
   errorCount: propTypes.number.isRequired,
   gameTime: propTypes.number.isRequired,
   questions: propTypes.array.isRequired,
+
+  step: propTypes.number.isRequired,
+  mistakes: propTypes.number.isRequired,
+  onUserAnswer: propTypes.func.isRequired,
+  onResetGame: propTypes.func.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  step: state.step,
+  mistakes: state.mistakes
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onUserAnswer: (question, userAnswer) => {
+    dispatch(ActionCreators[`INCREMENT_STEP`]());
+    dispatch(ActionCreators[`INCREMENT_MISTAKES`](question, userAnswer));
+  },
+  onResetGame: () => {
+    dispatch({type: `GAME_RESET`});
+  }
+});
+
+export {App};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);

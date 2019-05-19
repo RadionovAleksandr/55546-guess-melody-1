@@ -9,6 +9,7 @@ class GameGenre extends React.PureComponent {
 
     this.state = {
       activePlayer: -1,
+      answers: new Array(props.question.answers.length).fill(false)
     };
   }
 
@@ -20,7 +21,7 @@ class GameGenre extends React.PureComponent {
       <h2 className="game__title">Выберите {genre} треки</h2>
       <form className="game__tracks" onSubmit={(evt) => {
         evt.preventDefault();
-        onAnswer();
+        onAnswer(this.state.answers);
       }}>
         {answers.map((it, i) => <div className="track" key={`answer-${i}`}>
           <AudioComponent
@@ -31,7 +32,18 @@ class GameGenre extends React.PureComponent {
             })}
           />
           <div className="game__answer">
-            <input className="game__input visually-hidden" type="checkbox" name="answer" value={`answer-${i}`} id={`answer-${i}`} />
+            <input
+              className="game__input visually-hidden"
+              type="checkbox"
+              name="answer"
+              value={`answer-${i}`}
+              id={`answer-${i}`}
+              onChange={() => {
+                this.setState({
+                  answers: this.state.answers.map((item, idx) => i === idx ? !item : item)
+                });
+              }}
+            />
             <label className="game__check" htmlFor={`answer-${i}`}>
               Отметить
             </label>
