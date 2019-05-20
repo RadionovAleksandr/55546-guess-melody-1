@@ -1,11 +1,20 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
+export const snapshotURL = `void://for-snapshot`;
 class AudioComponent extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this._audioRef = React.createRef();
+    if (props.src === snapshotURL) {
+      this._audioRef = {
+        current: {
+          play() {},
+          pause() {}
+        }
+      };
+    } else {
+      this._audioRef = React.createRef();
+    }
 
     this.state = {
       progress: 0,
@@ -38,6 +47,11 @@ class AudioComponent extends React.PureComponent {
 
   componentDidMount() {
     const {src} = this.props;
+
+    if (src === snapshotURL) {
+      return;
+    }
+
     const audio = this._audioRef.current;
 
     audio.src = src;
@@ -64,11 +78,7 @@ class AudioComponent extends React.PureComponent {
   componentDidUpdate() {
     const audio = this._audioRef.current;
 
-    if (this.props.isPlaying) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
+    audio[this.props.isPlaying ? `play` : `pause`]();
   }
 
   componentWillUnmount() {

@@ -20,6 +20,8 @@ exports[`Test GameGenre GameGenre is rendered correctly 1`] = `
     >
       <button
         className="track__button track__button--play"
+        disabled={true}
+        onClick={[Function]}
         type="button"
       />
       <div
@@ -34,6 +36,7 @@ exports[`Test GameGenre GameGenre is rendered correctly 1`] = `
           className="game__input visually-hidden"
           id="answer-0"
           name="answer"
+          onChange={[Function]}
           type="checkbox"
           value="answer-0"
         />
@@ -50,6 +53,8 @@ exports[`Test GameGenre GameGenre is rendered correctly 1`] = `
     >
       <button
         className="track__button track__button--play"
+        disabled={true}
+        onClick={[Function]}
         type="button"
       />
       <div
@@ -64,6 +69,7 @@ exports[`Test GameGenre GameGenre is rendered correctly 1`] = `
           className="game__input visually-hidden"
           id="answer-1"
           name="answer"
+          onChange={[Function]}
           type="checkbox"
           value="answer-1"
         />
@@ -80,6 +86,8 @@ exports[`Test GameGenre GameGenre is rendered correctly 1`] = `
     >
       <button
         className="track__button track__button--play"
+        disabled={true}
+        onClick={[Function]}
         type="button"
       />
       <div
@@ -94,6 +102,7 @@ exports[`Test GameGenre GameGenre is rendered correctly 1`] = `
           className="game__input visually-hidden"
           id="answer-2"
           name="answer"
+          onChange={[Function]}
           type="checkbox"
           value="answer-2"
         />
@@ -110,6 +119,8 @@ exports[`Test GameGenre GameGenre is rendered correctly 1`] = `
     >
       <button
         className="track__button track__button--play"
+        disabled={true}
+        onClick={[Function]}
         type="button"
       />
       <div
@@ -124,6 +135,7 @@ exports[`Test GameGenre GameGenre is rendered correctly 1`] = `
           className="game__input visually-hidden"
           id="answer-3"
           name="answer"
+          onChange={[Function]}
           type="checkbox"
           value="answer-3"
         />

@@ -4,6 +4,7 @@ import {configure, mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
 import GameGenre from "./game-genre";
+import {snapshotURL} from '../audio-component/audio-component';
 
 configure({adapter: new Adapter()});
 
@@ -13,7 +14,7 @@ const mock = {
     genre: `rock`,
     answers: [
       {
-        src: `path`,
+        src: snapshotURL,
         genre: `rock`,
       },
     ],

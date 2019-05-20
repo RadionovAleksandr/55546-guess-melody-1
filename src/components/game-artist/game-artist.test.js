@@ -2,13 +2,14 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 
 import GameArtist from './game-artist';
+import {snapshotURL} from '../audio-component/audio-component';
 
 const mock = {
   question: {
     type: `artist`,
     song: {
       artist: `Jim Beam`,
-      src: `path.mp3`,
+      src: snapshotURL,
     },
     answers: [
       {
