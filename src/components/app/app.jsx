@@ -1,12 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {ActionCreators} from "../../reducer";
-
-import WelcomeScreen from '../welcome-screen/welcome-screen';
-import GameArtist from "../game-artist/game-artist";
-import GameGener from "../game-genre/game-genre";
-import GameMistakes from "../game-mistakes/game-mistakes";
 
 const Type = {
   artist: `game--artist`,
@@ -14,44 +8,15 @@ const Type = {
 };
 
 class App extends React.Component {
-  _getScreen(question, onClick) {
-    if (!question) {
-      const {errorCount, gameTime} = this.props;
-
-      return <WelcomeScreen
-        errorCount={errorCount}
-        time={gameTime}
-        onButtonStartClick={onClick}
-      />;
-    }
-
-    switch (question.type) {
-      case `genre`: return <GameGener
-        question={question}
-        onAnswer={onClick}
-      />;
-
-      case `artist`: return <GameArtist
-        question={question}
-        onAnswer={onClick}
-      />;
-    }
-
-    return null;
-  }
-
-  shouldComponentUpdate(props) {
-    const {mistakes, errorCount} = props;
-
-    if (mistakes >= errorCount) {
-      this.props.onResetGame();
-    }
-
-    return true;
-  }
-
   render() {
-    const {questions, step, mistakes} = this.props;
+    const {
+      questions,
+      renderScreen,
+      renderMistakes,
+      step,
+      mistakes
+    } = this.props;
+
     const question = questions[step];
 
     return <section className={`game ${question ? Type[question.type] : ``}`}>
@@ -77,29 +42,21 @@ class App extends React.Component {
           <span className="timer__secs">00</span>
         </div>
 
-        <GameMistakes mistakes={mistakes} />
+        {renderMistakes(mistakes)}
       </header>
 
-      {this._getScreen(question, (userAnswer) => {
-        this.props.onUserAnswer(question, userAnswer);
-
-        if (step >= questions.length) {
-          this.props.onResetGame();
-        }
-      })}
+      {renderScreen(question)}
     </section>;
   }
 }
 
 App.propTypes = {
-  errorCount: propTypes.number.isRequired,
   gameTime: propTypes.number.isRequired,
   questions: propTypes.array.isRequired,
-
+  renderScreen: propTypes.func.isRequired,
+  renderMistakes: propTypes.func.isRequired,
   step: propTypes.number.isRequired,
   mistakes: propTypes.number.isRequired,
-  onUserAnswer: propTypes.func.isRequired,
-  onResetGame: propTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
@@ -107,19 +64,6 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   mistakes: state.mistakes
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onUserAnswer: (question, userAnswer) => {
-    dispatch(ActionCreators[`INCREMENT_STEP`]());
-    dispatch(ActionCreators[`INCREMENT_MISTAKES`](question, userAnswer));
-  },
-  onResetGame: () => {
-    dispatch({type: `GAME_RESET`});
-  }
-});
-
 export {App};
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(App);
+export default connect(mapStateToProps)(App);

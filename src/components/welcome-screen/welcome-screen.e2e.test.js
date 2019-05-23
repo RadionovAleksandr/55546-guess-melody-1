@@ -10,9 +10,9 @@ describe(`e2e test WelcomeScreen`, () => {
   it(`Test button play click`, () => {
     const startGameFn = jest.fn();
     const tree = shallow(<WelcomeScreen
-      time={0}
+      gameTime={0}
       errorCount={0}
-      onButtonStartClick={startGameFn}
+      onClick={startGameFn}
     />);
     const btnStart = tree.find(`.welcome__button`);
     expect(startGameFn).toHaveBeenCalledTimes(0);

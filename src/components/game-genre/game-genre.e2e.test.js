@@ -19,13 +19,17 @@ const mock = {
       },
     ],
   },
+  userAnswer: [false, false, false, false]
 };
 describe(`e2e test GameGenre`, () => {
   it(`When user answers genre question form is not sent`, () => {
-    const {question} = mock;
+    const {question, userAnswer} = mock;
     const onAnswer = jest.fn();
     const genreQuestion = mount(<GameGenre
+      userAnswer={userAnswer}
+      renderAnswer={jest.fn()}
       onAnswer={onAnswer}
+      onChange={jest.fn()}
       question={question}
     />);
 

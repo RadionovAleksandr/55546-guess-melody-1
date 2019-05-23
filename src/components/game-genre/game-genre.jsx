@@ -1,48 +1,38 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
-import AudioComponent from '../audio-component/audio-component';
-
 class GameGenre extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      activePlayer: -1,
-      answers: new Array(props.question.answers.length).fill(false)
-    };
-  }
-
   render() {
-    const {question, onAnswer} = this.props;
-    const {answers, genre} = question;
+    const {
+      question,
+      onAnswer,
+      onChange,
+      renderAnswer,
+      userAnswer,
+    } = this.props;
+
+    const {
+      answers,
+      genre,
+    } = question;
 
     return <section className="game__screen">
       <h2 className="game__title">Выберите {genre} треки</h2>
       <form className="game__tracks" onSubmit={(evt) => {
         evt.preventDefault();
-        onAnswer(this.state.answers);
+        onAnswer();
       }}>
         {answers.map((it, i) => <div className="track" key={`answer-${i}`}>
-          <AudioComponent
-            src={it.src}
-            isPlaying={i === this.state.activePlayer}
-            onPlayButtonClick={() => this.setState({
-              activePlayer: this.state.activePlayer === i ? -1 : i
-            })}
-          />
+          {renderAnswer(it, i)}
           <div className="game__answer">
             <input
+              checked={userAnswer[i]}
               className="game__input visually-hidden"
               type="checkbox"
               name="answer"
               value={`answer-${i}`}
               id={`answer-${i}`}
-              onChange={() => {
-                this.setState({
-                  answers: this.state.answers.map((item, idx) => i === idx ? !item : item)
-                });
-              }}
+              onChange={() => onChange(i)}
             />
             <label className="game__check" htmlFor={`answer-${i}`}>
               Отметить
@@ -56,8 +46,11 @@ class GameGenre extends React.PureComponent {
   }
 }
 
+
 GameGenre.propTypes = {
   onAnswer: propTypes.func.isRequired,
+  onChange: propTypes.func.isRequired,
+  renderAnswer: propTypes.func.isRequired,
   question: propTypes.shape({
     answers: propTypes.arrayOf(propTypes.shape({
       src: propTypes.string.isRequired,
@@ -66,6 +59,8 @@ GameGenre.propTypes = {
     genre: propTypes.oneOf([`rock`, `jazz`, `blues`]).isRequired,
     type: propTypes.oneOf([`genre`, `artist`]).isRequired,
   }).isRequired,
+  userAnswer: propTypes.arrayOf(propTypes.bool).isRequired,
 };
+
 
 export default GameGenre;

@@ -5,7 +5,7 @@ import WelcomScreen from './welcome-screen';
 describe(`Test WelcomScreen`, () => {
   it(`Test WelcomScreen renderer`, () => {
     const tree = renderer
-      .create(<WelcomScreen time={0} errorCount={0} onButtonStartClick={jest.fn()} />)
+      .create(<WelcomScreen gameTime={0} errorCount={0} onClick={jest.fn()} />)
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
