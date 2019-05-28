@@ -9,9 +9,8 @@ export const getQuestions = (state) => {
 
 export const getGenreQuestions = createSelector(
     getQuestions,
-    (questions) => questions.filter((it) => it.type === `genre`).map(it => console.log(it) || it)
+    (questions) => questions.filter((it) => it.type === `genre`).map((it) => it)
 );
-
 
 const randomFilter = (_state) => {
   return Math.random() > 0.5;
