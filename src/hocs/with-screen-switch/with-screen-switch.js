@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import {compose} from "recompose";
 
 import GameArtist from "../../components/game-artist/game-artist.jsx";
+// import AuthorizationScreen from "../../components/authorization-screen/authorization-screen.jsx";
 import GameGenre from "../../components/game-genre/game-genre.jsx";
 import WelcomeScreen from "../../components/welcome-screen/welcome-screen.jsx";
 import WinScreen from "../../components/win-screen/win-screen.jsx";
@@ -13,7 +14,11 @@ import GameMistakes from "../../components/game-mistakes/game-mistakes.jsx";
 import withActivePlayer from "../../hocs/with-active-player/with-active-player";
 import withTransformProps from "../../hocs/with-transform-props/with-transform-props";
 import withUserAnswer from "../../hocs/with-user-answer/with-user-asnwer";
-import {ActionCreators} from "../../reducer";
+import {ActionCreator} from "../../reducer/game/game";
+
+import {getStep, getMistakes} from "../../reducer/game/selectors";
+import {getQuestions} from "../../reducer/data/selectors";
+import {getAuthorizationStatus} from "../../reducer/user/selectors";
 
 const transformPlayerToAnswer = (props) => {
   const newProps = Object.assign({}, props, {
@@ -25,10 +30,7 @@ const transformPlayerToAnswer = (props) => {
 
 const WrapperGameArtist = withActivePlayer(GameArtist);
 const WrapperGameGenre = withUserAnswer(
-    withActivePlayer(
-        withTransformProps(transformPlayerToAnswer)(GameGenre)
-    )
-);
+    withActivePlayer(withTransformProps(transformPlayerToAnswer)(GameGenre)));
 
 
 const withScreenSwitch = (Component) => {
@@ -48,6 +50,10 @@ const withScreenSwitch = (Component) => {
     }
 
     _getScreen(question) {
+      // if (this.props.isAuthorizationRequired) {
+      //   return <AuthorizationScreen />;
+      // }
+
       if (!question) {
         const {step, questions} = this.props;
         if (step > questions.length - 1) {
@@ -108,6 +114,7 @@ const withScreenSwitch = (Component) => {
   }
 
   WithScreenSwitch.propTypes = {
+    // isAuthorizationRequired: PropTypes.bool.isRequired,
     gameTime: PropTypes.number.isRequired,
     errorCount: PropTypes.number.isRequired,
     mistakes: PropTypes.number.isRequired,
@@ -125,19 +132,24 @@ const withScreenSwitch = (Component) => {
 export {withScreenSwitch};
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  step: state.step,
-  mistakes: state.mistakes,
+  questions: getQuestions(state),
+  step: getStep(state),
+  mistakes: getMistakes(state),
+  isAuthorizationRequired: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onWelcomeScreenClick: () => dispatch(ActionCreators[`INCREMENT_STEP`]()),
+  onWelcomeScreenClick: () => dispatch(ActionCreator.incrementStep()),
 
   onUserAnswer: (userAnswer, question) => {
-    dispatch(ActionCreators[`INCREMENT_STEP`]());
-    dispatch(ActionCreators[`INCREMENT_MISTAKES`](question, userAnswer));
+    dispatch(ActionCreator.incrementStep());
+    dispatch(ActionCreator.incrementMistake(
+        userAnswer,
+        question
+    ));
   },
 
-  resetGame: () => dispatch({type: `GAME_RESET`}),
+  resetGame: () => dispatch(ActionCreator.resetGame()),
 });
 
 export default compose(
