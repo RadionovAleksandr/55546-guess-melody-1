@@ -27,13 +27,17 @@ const mock = {
       },
     ],
   },
+  userAnswer: [false, false, false, false]
 };
 
 describe(`Test GameGenre`, () => {
   it(`GameGenre is rendered correctly`, () => {
-    const {question} = mock;
+    const {question, userAnswer} = mock;
     const tree = renderer.create(<GameGenre
+      userAnswer={userAnswer}
+      renderAnswer={jest.fn()}
       onAnswer={jest.fn()}
+      onChange={jest.fn()}
       question={question}
     />).toJSON();
 

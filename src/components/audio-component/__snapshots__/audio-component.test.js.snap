@@ -4,14 +4,12 @@ exports[`Test AudioComponent Test AudioComponent renderer 1`] = `
 Array [
   <button
     className="track__button track__button--play"
-    disabled={true}
-    onClick={[Function]}
+    disabled={false}
+    onClick={[MockFunction]}
     type="button"
   />,
   <div
     className="track__status"
-  >
-    <audio />
-  </div>,
+  />,
 ]
 `;

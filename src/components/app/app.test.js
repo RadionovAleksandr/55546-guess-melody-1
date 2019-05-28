@@ -31,8 +31,7 @@ const questions = [
 ];
 
 const mockApp = {
-  gameTime: 5,
-  errorCount: 1
+  gameTime: 5
 };
 
 const mockStore = {
@@ -45,14 +44,13 @@ describe(`Test App`, () => {
     const tree = renderer
       .create(<App
         gameTime={mockApp.gameTime}
-        errorCount={mockApp.errorCount}
         questions={questions}
 
         step={mockStore.step}
         mistakes={mockStore.mistakes}
 
-        onUserAnswer={jest.fn()}
-        onResetGame={jest.fn()}
+        renderScreen={jest.fn()}
+        renderMistakes={jest.fn()}
       />)
       .toJSON();
     expect(tree).toMatchSnapshot();

@@ -1,30 +1,18 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
-import AudioComponent from '../audio-component/audio-component';
-
 class GameArtist extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isPlaying: false
-    };
-  }
-
   render() {
-    const {question, onAnswer} = this.props;
-    const {isPlaying} = this.state;
-    const {answers, song} = question;
+    const {question, onAnswer, renderPlayer} = this.props;
+    const {
+      answers,
+      song,
+    } = question;
 
     return <section className="game__screen">
       <h2 className="game__title">Кто исполняет эту песню?</h2>
       <div className="game__track">
-        <AudioComponent
-          src={song.src}
-          isPlaying={isPlaying}
-          onPlayButtonClick={() => this.setState({isPlaying: !isPlaying})}
-        />
+        {renderPlayer(song, 0)}
       </div>
 
       <form className="game__artist">
@@ -35,9 +23,7 @@ class GameArtist extends React.PureComponent {
             name="answer"
             value={`artist-${i}`}
             id={`artist-${i}`}
-            onChange={() => {
-              onAnswer(it);
-            }}
+            onClick={() => onAnswer(it)}
           />
           <label className="artist__name" htmlFor={`artist-${i}`}>
             <img className="artist__picture" src={it.picture} alt={it.artist} />
@@ -51,6 +37,7 @@ class GameArtist extends React.PureComponent {
 
 GameArtist.propTypes = {
   onAnswer: propTypes.func.isRequired,
+  renderPlayer: propTypes.func.isRequired,
   question: propTypes.shape({
     answers: propTypes.arrayOf(propTypes.shape({
       artist: propTypes.string.isRequired,

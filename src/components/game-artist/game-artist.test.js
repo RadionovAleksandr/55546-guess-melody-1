@@ -32,6 +32,7 @@ describe(`Test GameArtist`, () => {
   it(`GameArtist is rendered correctly`, () => {
     const {question} = mock;
     const tree = renderer.create(<GameArtist
+      renderPlayer={jest.fn()}
       onAnswer={jest.fn()}
       question={question}
     />).toJSON();
