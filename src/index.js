@@ -1,12 +1,15 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
+import thunk from 'redux-thunk';
+import {compose} from 'recompose';
 
-import {reducer} from './reducer';
+import reducer from './reducer/index.js';
+import {createAPI} from './api';
+import {Operation} from "./reducer/data/data";
 
 import App from './components/app/app';
-import questions from './mocks/questions';
 
 import withScreenSwitch from './hocs/with-screen-switch/with-screen-switch';
 
@@ -14,29 +17,35 @@ const mainContainer = document.querySelector(`.main`);
 
 const settings = {
   gameTime: 5,
-  errorCount: 1,
+  errorCount: 11,
 };
 
 const AppWrapped = withScreenSwitch(App);
 
-const init = (questionsList) => {
+const init = () => {
+  const api = createAPI((...args) => store.dispatch(...args));
+
   /* eslint-disable no-underscore-dangle */
   const store = createStore(
       reducer,
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      compose(
+          applyMiddleware(thunk.withExtraArgument(api)),
+          window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      )
   );
   /* eslint-enable */
+
+  store.dispatch(Operation.loadQuestions());
 
   ReactDOM.render(
       <Provider store={store}>
         <AppWrapped
           errorCount={settings.errorCount}
           gameTime={settings.gameTime}
-          questions={questionsList}
         />
       </Provider>,
       mainContainer
   );
 };
 
-init(questions);
+init();

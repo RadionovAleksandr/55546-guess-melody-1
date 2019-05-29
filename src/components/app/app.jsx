@@ -1,6 +1,8 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {getStep, getMistakes} from "../../reducer/game/selectors";
+import {getQuestions} from "../../reducer/data/selectors";
 
 const Type = {
   artist: `game--artist`,
@@ -54,14 +56,15 @@ App.propTypes = {
   gameTime: propTypes.number.isRequired,
   questions: propTypes.array.isRequired,
   renderScreen: propTypes.func.isRequired,
-  renderMistakes: propTypes.func.isRequired,
   step: propTypes.number.isRequired,
+  renderMistakes: propTypes.func.isRequired,
   mistakes: propTypes.number.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  step: state.step,
-  mistakes: state.mistakes
+  questions: getQuestions(state),
+  step: getStep(state),
+  mistakes: getMistakes(state)
 });
 
 export {App};
