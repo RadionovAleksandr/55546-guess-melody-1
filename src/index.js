@@ -8,6 +8,7 @@ import {compose} from 'recompose';
 import reducer from './reducer/index.js';
 import {createAPI} from './api';
 import {Operation} from "./reducer/data/data";
+import {Operation as UserOperation} from "./reducer/user/user";
 
 import App from './components/app/app';
 
@@ -36,6 +37,7 @@ const init = () => {
   /* eslint-enable */
 
   store.dispatch(Operation.loadQuestions());
+  store.dispatch(UserOperation.checkAuthorization());
 
   ReactDOM.render(
       <Provider store={store}>
