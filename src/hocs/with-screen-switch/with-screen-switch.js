@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {compose} from "recompose";
 
 import GameArtist from "../../components/game-artist/game-artist.jsx";
-// import AuthorizationScreen from "../../components/authorization-screen/authorization-screen.jsx";
+import AuthorizationScreen from "../../components/authorization-screen/authorization-screen.jsx";
 import GameGenre from "../../components/game-genre/game-genre.jsx";
 import WelcomeScreen from "../../components/welcome-screen/welcome-screen.jsx";
 import WinScreen from "../../components/win-screen/win-screen.jsx";
@@ -50,9 +50,9 @@ const withScreenSwitch = (Component) => {
     }
 
     _getScreen(question) {
-      // if (this.props.isAuthorizationRequired) {
-      //   return <AuthorizationScreen />;
-      // }
+      if (this.props.isAuthorizationRequired) {
+        return <AuthorizationScreen />;
+      }
 
       if (!question) {
         const {step, questions} = this.props;
@@ -114,7 +114,7 @@ const withScreenSwitch = (Component) => {
   }
 
   WithScreenSwitch.propTypes = {
-    // isAuthorizationRequired: PropTypes.bool.isRequired,
+    isAuthorizationRequired: PropTypes.bool.isRequired,
     gameTime: PropTypes.number.isRequired,
     errorCount: PropTypes.number.isRequired,
     mistakes: PropTypes.number.isRequired,

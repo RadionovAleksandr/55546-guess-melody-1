@@ -2,11 +2,9 @@ const initialState = {
   questions: [],
 };
 
-
 const ActionType = {
   LOAD_QUESTIONS: `LOAD_QUESTIONS`,
 };
-
 
 const ActionCreator = {
   loadQuestions: (questions) => {
@@ -36,7 +34,6 @@ const reducer = (state = initialState, action) => {
 
   return state;
 };
-
 
 export {
   ActionCreator,
