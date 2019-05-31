@@ -32,21 +32,23 @@ const ActionCreator = {
 
 const Operation = {
   signIn: (data) => (dispatch, _getState, api) => {
-    // {
-    //   email: `test@test.com`,
-    //     password: 1234
-    // }
-
     return api.post(`/login`, data)
     .then((response) => {
-      dispatch(ActionCreator.signIn(response.data));
-      dispatch(ActionCreator.requireAuthorization(false));
+      if (response.data) {
+        dispatch(ActionCreator.signIn(response.data));
+        dispatch(ActionCreator.requireAuthorization(false));
+      }
     })
     .catch(() => {});
   },
   checkAuthorization: () => (dispatch, _getState, api) => {
     return api.get(`/login`)
-      .then(() => { })
+      .then((response) => {
+        if (response.data) {
+          dispatch(ActionCreator.signIn(response.data));
+          dispatch(ActionCreator.requireAuthorization(false));
+        }
+      })
       .catch(() => { });
   },
 };

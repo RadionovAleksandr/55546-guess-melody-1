@@ -3,7 +3,7 @@ import React from 'react';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
-import {compose} from 'recompose';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 import reducer from './reducer/index.js';
 import {createAPI} from './api';
@@ -26,15 +26,12 @@ const AppWrapped = withScreenSwitch(App);
 const init = () => {
   const api = createAPI((...args) => store.dispatch(...args));
 
-  /* eslint-disable no-underscore-dangle */
   const store = createStore(
       reducer,
-      compose(
-          applyMiddleware(thunk.withExtraArgument(api)),
-          window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      composeWithDevTools(
+          applyMiddleware(thunk.withExtraArgument(api))
       )
   );
-  /* eslint-enable */
 
   store.dispatch(Operation.loadQuestions());
   store.dispatch(UserOperation.checkAuthorization());

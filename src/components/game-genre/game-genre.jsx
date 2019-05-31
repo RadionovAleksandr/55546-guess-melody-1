@@ -54,9 +54,9 @@ GameGenre.propTypes = {
   question: propTypes.shape({
     answers: propTypes.arrayOf(propTypes.shape({
       src: propTypes.string.isRequired,
-      genre: propTypes.oneOf([`rock`, `jazz`, `blues`]).isRequired,
+      genre: propTypes.string.isRequired,
     })).isRequired,
-    genre: propTypes.oneOf([`rock`, `jazz`, `blues`]).isRequired,
+    genre: propTypes.string.isRequired,
     type: propTypes.oneOf([`genre`, `artist`]).isRequired,
   }).isRequired,
   userAnswer: propTypes.arrayOf(propTypes.bool).isRequired,
