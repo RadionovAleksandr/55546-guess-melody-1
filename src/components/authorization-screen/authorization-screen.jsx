@@ -46,7 +46,7 @@ class AuthorizationScreen extends React.PureComponent {
       <form className="login__form" action="">
         <p className="login__field">
           <label className="login__label" htmlFor="name">Логин</label>
-          <input ref={this._loginField} className="login__input" type="text" name="name" id="name" />
+          <input ref={this._loginField} defaultValue="test@test.com" className="login__input" type="text" name="name" id="name" />
           <span ref={this._errorLogin} className="login__error">Неверный логин</span>
         </p>
         <p className="login__field">

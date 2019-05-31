@@ -52,9 +52,7 @@ const withScreenSwitch = (Component) => {
     _getScreen(question) {
       if (this.props.isAuthorizationRequired) {
         return <AuthorizationScreen />;
-      }
-
-      if (!question) {
+      } else if (!question) {
         const {step, questions} = this.props;
         if (step > questions.length - 1) {
           return <WinScreen/>;

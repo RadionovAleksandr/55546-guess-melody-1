@@ -45,6 +45,7 @@ exports[`Test authorizationScreen renderer 1`] = `
       </label>
       <input
         className="login__input"
+        defaultValue="test@test.com"
         id="name"
         name="name"
         type="text"
