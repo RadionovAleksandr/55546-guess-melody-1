@@ -3,12 +3,6 @@
 exports[`Test authorizationScreen renderer 1`] = `
 <section
   className="login"
-  style={
-    Object {
-      "marginTop": "-200px",
-      "zIndex": 999,
-    }
-  }
 >
   <div
     className="login__logo"

@@ -37,7 +37,7 @@ class AuthorizationScreen extends React.PureComponent {
       checkDataSignIn
     } = this;
 
-    return <section className="login" style={{zIndex: 999, marginTop: `-200px`}}>
+    return <section className="login">
       <div className="login__logo">
         <img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83" />
       </div>

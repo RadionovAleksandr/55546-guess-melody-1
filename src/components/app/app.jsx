@@ -16,7 +16,7 @@ class App extends React.Component {
       renderScreen,
       renderMistakes,
       step,
-      mistakes
+      mistakes,
     } = this.props;
 
     const question = questions[step];

@@ -49,7 +49,7 @@ const Operation = {
           dispatch(ActionCreator.requireAuthorization(false));
         }
       })
-      .catch(() => { });
+      .catch(() => {});
   },
 };
 

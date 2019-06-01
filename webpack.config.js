@@ -13,6 +13,7 @@ module.exports = {
     contentBase: path.join(__dirname, `public`),
     compress: false,
     port: 1339,
+    historyApiFallback: true,
   },
   resolve: {
     extensions: [`.js`, `.jsx`]
