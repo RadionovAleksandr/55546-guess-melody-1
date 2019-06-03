@@ -2,6 +2,7 @@ import React, {PureComponent} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {compose} from "recompose";
+import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 
 import GameArtist from "../../components/game-artist/game-artist.jsx";
 import AuthorizationScreen from "../../components/authorization-screen/authorization-screen.jsx";
@@ -42,45 +43,76 @@ const withScreenSwitch = (Component) => {
     }
 
     render() {
-      return <Component
-        {...this.props}
-        renderScreen={this._getScreen}
-        renderMistakes={this._getMistakes}
-      />;
+      return <BrowserRouter>
+        <Switch>
+          <Route path="/" exact render={() => {
+            return <Component
+              {...this.props}
+              renderScreen={this._getScreen}
+              renderMistakes={this._getMistakes}
+            />;
+          }} />
+          <Route path="/results" render={() => {
+            return <WinScreen
+              mistakes={this.props.mistakes}
+              onReplayButtonClick={this.props.resetGame}
+            />;
+          }} />
+          <Route path="/lose" render={() => {
+            return <GameOverScreen
+              onRelaunchButtonClick={this.props.resetGame}
+            />;
+          }} />
+          <Route path="/login" render={() => {
+            return <AuthorizationScreen />;
+          }} />
+        </Switch>
+      </BrowserRouter>;
     }
 
     _getScreen(question) {
-      if (this.props.isAuthorizationRequired) {
-        return <AuthorizationScreen />;
-      } else if (!question) {
-        const {step, questions} = this.props;
-        if (step > questions.length - 1) {
-          return <WinScreen/>;
-        } else {
-          const {
-            errorCount,
-            gameTime,
-            onWelcomeScreenClick,
-          } = this.props;
-
-          return <WelcomeScreen
-            errorCount={errorCount}
-            gameTime={gameTime}
-            onClick={onWelcomeScreenClick}
-          />;
-        }
-      }
-
       const {
-        onUserAnswer,
-        mistakes,
+        gameTime,
         errorCount,
-        resetGame,
+        mistakes,
+        onUserAnswer,
+        onWelcomeScreenClick,
+        questions,
+        step,
+        isAuthorizationRequired
       } = this.props;
 
+      if (isAuthorizationRequired) {
+        return <Redirect to="/login" />;
+      }
+
+      // Переход на экран победы, если пользователь добрался
+      // до последнего шага
+      if (step >= questions.length) {
+        return <Redirect to="/results" />;
+      }
+
+      // Если количество ошибок превысило максимально допустимое
+      // количество, переход на экран поражения
       if (mistakes >= errorCount) {
-        return <GameOverScreen
-          onRelaunchButtonClick={resetGame}
+        return <Redirect to="/lose" />;
+      }
+
+      // NB!
+      // Компоненты <WinScreen />, <QuestionGenreScreenWrapped />
+      // и <ArtistQuestionScreenWrapped /> отрисовываются без помощи
+      // компонента <Redirect />. Это значит, что все эти экраны
+      // переключаются в рамках одного сценария: невозможно перейти
+      // на экран второго вопроса, не ответив, предварительно на первый
+
+      // Если номер текущего вопроса в игре равен -1
+      // значит игра ещё не начата и нужно показать
+      // приветственный экран
+      if (step === -1) {
+        return <WelcomeScreen
+          errorCount={errorCount}
+          gameTime={gameTime}
+          onClick={onWelcomeScreenClick}
         />;
       }
 
