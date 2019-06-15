@@ -1,12 +1,14 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
+import * as React from 'react';
+import * as renderer from 'react-test-renderer';
 
 import GameGenre from './game-genre';
 import {snapshotURL} from '../audio-component/audio-component';
 
+import {Type} from "../../types";
+
 const mock = {
   question: {
-    type: `genre`,
+    type: Type.GENRE,
     genre: `rock`,
     answers: [
       {
@@ -15,7 +17,7 @@ const mock = {
       },
       {
         src: snapshotURL,
-        genre: `blues`,
+        genre: `jazz`,
       },
       {
         src: snapshotURL,
@@ -23,7 +25,7 @@ const mock = {
       },
       {
         src: snapshotURL,
-        genre: `rock`,
+        genre: `blues`,
       },
     ],
   },

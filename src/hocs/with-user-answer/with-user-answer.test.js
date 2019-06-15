@@ -1,7 +1,9 @@
-import React from "react";
+import * as React from "react";
 import {configure, shallow} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import withUserAnswer from "./with-user-asnwer";
+
+import {snapshotURL} from '../../components/audio-component/audio-component';
 
 configure({adapter: new Adapter()});
 
@@ -14,19 +16,19 @@ const mock = {
     genre: `rock`,
     answers: [
       {
-        src: `path`,
+        src: snapshotURL,
         genre: `rock`,
       },
       {
-        src: `path`,
+        src: snapshotURL,
         genre: `jazz`,
       },
       {
-        src: `path`,
+        src: snapshotURL,
         genre: `jazz`,
       },
       {
-        src: `path`,
+        src: snapshotURL,
         genre: `blues`,
       },
     ],

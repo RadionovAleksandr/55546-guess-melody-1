@@ -1,16 +1,15 @@
-import React, {PureComponent} from "react";
+import * as React from "react";
 import {connect} from "react-redux";
-import PropTypes from "prop-types";
 import {compose} from "recompose";
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 
-import GameArtist from "../../components/game-artist/game-artist.jsx";
-import AuthorizationScreen from "../../components/authorization-screen/authorization-screen.jsx";
-import GameGenre from "../../components/game-genre/game-genre.jsx";
-import WelcomeScreen from "../../components/welcome-screen/welcome-screen.jsx";
-import WinScreen from "../../components/win-screen/win-screen.jsx";
-import GameOverScreen from "../../components/game-over-screen/game-over-screen.jsx";
-import GameMistakes from "../../components/game-mistakes/game-mistakes.jsx";
+import GameArtist from "../../components/game-artist/game-artist";
+import AuthorizationScreen from "../../components/authorization-screen/authorization-screen";
+import GameGenre from "../../components/game-genre/game-genre";
+import WelcomeScreen from "../../components/welcome-screen/welcome-screen";
+import WinScreen from "../../components/win-screen/win-screen";
+import GameOverScreen from "../../components/game-over-screen/game-over-screen";
+import GameMistakes from "../../components/game-mistakes/game-mistakes";
 
 import withActivePlayer from "../../hocs/with-active-player/with-active-player";
 import withTransformProps from "../../hocs/with-transform-props/with-transform-props";
@@ -20,6 +19,23 @@ import {ActionCreator} from "../../reducer/game/game";
 import {getStep, getMistakes} from "../../reducer/game/selectors";
 import {getQuestions} from "../../reducer/data/selectors";
 import {getAuthorizationStatus} from "../../reducer/user/selectors";
+import {AnswerArtist, AnswerGenre, QuestionArtist, QuestionGenre} from "../../types";
+
+type Answer = AnswerArtist | AnswerGenre | boolean[];
+type Question = QuestionGenre | QuestionArtist;
+
+interface Props {
+  gameTime: number,
+  isAuthorizationRequired: boolean,
+  maxMistakes: number,
+  mistakes: number,
+  onUserAnswer: (answer: Answer, question: Question) => void,
+  onWelcomeScreenClick: () => void,
+  resetGame: () => void,
+  questions: Question[],
+  step: number,
+  errorCount: number,
+}
 
 const transformPlayerToAnswer = (props) => {
   const newProps = Object.assign({}, props, {
@@ -35,7 +51,7 @@ const WrapperGameGenre = withUserAnswer(
 
 
 const withScreenSwitch = (Component) => {
-  class WithScreenSwitch extends PureComponent {
+  class WithScreenSwitch extends React.PureComponent<Props, null> {
     constructor(props) {
       super(props);
 
@@ -142,18 +158,6 @@ const withScreenSwitch = (Component) => {
       return <GameMistakes mistakes={mistakes} />;
     }
   }
-
-  WithScreenSwitch.propTypes = {
-    isAuthorizationRequired: PropTypes.bool.isRequired,
-    gameTime: PropTypes.number.isRequired,
-    errorCount: PropTypes.number.isRequired,
-    mistakes: PropTypes.number.isRequired,
-    onUserAnswer: PropTypes.func.isRequired,
-    onWelcomeScreenClick: PropTypes.func.isRequired,
-    resetGame: PropTypes.func.isRequired,
-    questions: PropTypes.array.isRequired,
-    step: PropTypes.number.isRequired,
-  };
 
   return WithScreenSwitch;
 };

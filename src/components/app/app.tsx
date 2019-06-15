@@ -1,15 +1,21 @@
-import React from 'react';
-import propTypes from 'prop-types';
+import * as React from 'react';
 import {connect} from 'react-redux';
 import {getStep, getMistakes} from "../../reducer/game/selectors";
 import {getQuestions} from "../../reducer/data/selectors";
+import {Type, QuestionArtist, QuestionGenre } from "../../types";
 
-const Type = {
-  artist: `game--artist`,
-  genre: `game--genre`,
-};
+type Question = QuestionArtist | QuestionGenre;
 
-class App extends React.Component {
+interface Props {
+  mistakes: number,
+  gameTime: number,
+  questions: Question[],
+  renderMistakes: (mistakes: number) => React.ReactElement,
+  renderScreen: (question: Question) => React.ReactElement,
+  step: number,
+}
+
+class App extends React.Component<Props, null> {
   render() {
     const {
       questions,
@@ -38,7 +44,7 @@ class App extends React.Component {
           />
         </svg>
 
-        <div className="timer__value" xmlns="http://www.w3.org/1999/xhtml">
+        <div className="timer__value">
           <span className="timer__mins">05</span>
           <span className="timer__dots">:</span>
           <span className="timer__secs">00</span>
@@ -52,16 +58,7 @@ class App extends React.Component {
   }
 }
 
-App.propTypes = {
-  gameTime: propTypes.number.isRequired,
-  questions: propTypes.array.isRequired,
-  renderScreen: propTypes.func.isRequired,
-  step: propTypes.number.isRequired,
-  renderMistakes: propTypes.func.isRequired,
-  mistakes: propTypes.number.isRequired,
-};
-
-const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+const mapStateToProps = (state: any, ownProps: any) => Object.assign({}, ownProps, {
   questions: getQuestions(state),
   step: getStep(state),
   mistakes: getMistakes(state)

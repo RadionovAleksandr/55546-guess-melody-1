@@ -1,12 +1,25 @@
-import React from "react";
+import * as React from "react";
 
 import {connect} from "react-redux";
-import propTypes from "prop-types";
 
 import {Operation} from "../../reducer/user/user";
 
-class AuthorizationScreen extends React.PureComponent {
-  constructor(props) {
+interface DataSignIn {
+  email: string,
+  password: string
+}
+
+interface Props {
+  signIn: (data: DataSignIn) => void
+}
+
+class AuthorizationScreen extends React.PureComponent<Props, null> {
+  private _loginField: React.RefObject<HTMLInputElement>;
+  private _passwordField: React.RefObject<HTMLInputElement>;
+  private _errorLogin: React.RefObject<HTMLDivElement>;
+  private _errorPassword: React.RefObject<HTMLDivElement>;
+
+  constructor(props: Props) {
     super(props);
     this._loginField = React.createRef();
     this._passwordField = React.createRef();
@@ -16,7 +29,7 @@ class AuthorizationScreen extends React.PureComponent {
     this.checkDataSignIn = this.checkDataSignIn.bind(this);
   }
 
-  checkDataSignIn(email, password, errorBlocks) {
+  checkDataSignIn(email: string, password: string, errorBlocks: any) {
     if (!email) {
       errorBlocks.email.innerHTML = `Не корректный логин!`;
       errorBlocks.login.style.display = `block`;
@@ -70,14 +83,10 @@ class AuthorizationScreen extends React.PureComponent {
   }
 }
 
-AuthorizationScreen.propTypes = {
-  signIn: propTypes.func.isRequired
-};
-
-const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps);
+const mapStateToProps = (state: any, ownProps: any) => Object.assign({}, ownProps);
 
 const mapDispatchToProps = (dispatch) => ({
-  signIn: (data) => {
+  signIn: (data: DataSignIn) => {
     dispatch(Operation.signIn(data));
   },
 });

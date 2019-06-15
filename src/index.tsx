@@ -1,5 +1,6 @@
-import ReactDOM from 'react-dom';
-import React from 'react';
+import * as ReactDOM from 'react-dom';
+import * as React from 'react';
+
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
@@ -24,7 +25,7 @@ const settings = {
 const AppWrapped = withScreenSwitch(App);
 
 const init = () => {
-  const api = createAPI(() => {
+  const api = createAPI((): void => {
     history.pushState(null, null, `/login`);
     store.dispatch(UserOperation.requireAuthorization(true));
   });

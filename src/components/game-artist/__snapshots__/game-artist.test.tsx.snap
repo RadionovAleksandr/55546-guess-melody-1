@@ -31,11 +31,8 @@ exports[`Test GameArtist GameArtist is rendered correctly 1`] = `
         htmlFor="artist-0"
       >
         <img
-          alt="John Snow"
           className="artist__picture"
-          src="path.jpg"
         />
-        John Snow
       </label>
     </div>
     <div
@@ -54,11 +51,8 @@ exports[`Test GameArtist GameArtist is rendered correctly 1`] = `
         htmlFor="artist-1"
       >
         <img
-          alt="Jack Daniels"
           className="artist__picture"
-          src="path.jpg"
         />
-        Jack Daniels
       </label>
     </div>
     <div
@@ -77,11 +71,28 @@ exports[`Test GameArtist GameArtist is rendered correctly 1`] = `
         htmlFor="artist-2"
       >
         <img
-          alt="Jim Beam"
           className="artist__picture"
-          src="path.jpg"
         />
-        Jim Beam
+      </label>
+    </div>
+    <div
+      className="artist"
+    >
+      <input
+        className="artist__input visually-hidden"
+        id="artist-3"
+        name="answer"
+        onClick={[Function]}
+        type="radio"
+        value="artist-3"
+      />
+      <label
+        className="artist__name"
+        htmlFor="artist-3"
+      >
+        <img
+          className="artist__picture"
+        />
       </label>
     </div>
   </form>

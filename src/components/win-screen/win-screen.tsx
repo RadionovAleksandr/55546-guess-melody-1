@@ -1,8 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import {Link} from "react-router-dom";
 
-const WinScreen = ({onReplayButtonClick, mistakes}) => {
+interface Props {
+  onReplayButtonClick: () => void,
+  mistakes: number
+}
+
+const WinScreen: React.FunctionComponent<Props> = ({onReplayButtonClick, mistakes}) => {
   return <section className="result">
     <div className="result__logo">
       <img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83" />
@@ -19,11 +23,6 @@ const WinScreen = ({onReplayButtonClick, mistakes}) => {
     >Сыграть ещё раз</Link>
   </section>;
 
-};
-
-WinScreen.propTypes = {
-  onReplayButtonClick: PropTypes.func.isRequired,
-  mistakes: PropTypes.number.isRequired,
 };
 
 export default WinScreen;

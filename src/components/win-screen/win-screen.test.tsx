@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 
-import renderer from 'react-test-renderer';
+import * as renderer from 'react-test-renderer';
 import WinScreen from './win-screen';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 
