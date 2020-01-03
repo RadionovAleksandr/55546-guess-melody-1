@@ -1,58 +1,41 @@
 import React from 'react';
-
 import renderer from 'react-test-renderer';
-import {App} from './app';
-import {snapshotURL} from '../audio-component/audio-component';
+import App from './app';
 
-const questions = [
-  {
-    type: `genre`,
-    genre: `rock`,
-    answers: [
+const mock = {
+  questions: [
       {
-        src: snapshotURL,
-        genre: `rock`,
-      },
-    ],
-  },
-  {
-    type: `artist`,
-    song: {
-      artist: `One`,
-      src: snapshotURL,
-    },
-    answers: [
-      {
-        picture: ``,
-        artist: `One`,
-      },
-    ],
-  }
-];
-
-const mockApp = {
-  gameTime: 5
+          type: 'genre',
+          genre: 'rock',
+          answers: [{
+              src: '',
+              genre: 'rock',
+          },
+          {
+              src: '',
+              genre: 'rap',
+          },
+          {
+              src: '',
+              genre: 'indi',
+          },
+          {
+              src: '',
+              genre: 'jazz',
+          },
+          ],
+      }
+  ]
 };
 
-const mockStore = {
-  step: -1,
-  mistakes: 0
-};
 
-describe(`Test App`, () => {
-  it(`Test App renderer`, () => {
-    const tree = renderer
-      .create(<App
-        gameTime={mockApp.gameTime}
-        questions={questions}
-
-        step={mockStore.step}
-        mistakes={mockStore.mistakes}
-
-        renderScreen={jest.fn()}
-        renderMistakes={jest.fn()}
-      />)
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-  });
+it('renderes correctly App', () => {
+  const {questions} = mock;
+  const tree = renderer.create(
+    <App
+      Screen gameTime={0}
+      errorCount={0}
+      questions = {questions}
+    />).toJSON();
+  expect(tree).toMatchSnapshot
 });

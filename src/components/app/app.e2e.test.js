@@ -1,83 +1,46 @@
-/* eslint-disable */
-
+import App from './app';
 import React from 'react';
-
-import {configure, mount} from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import {App} from './app';
-import {snapshotURL} from '../audio-component/audio-component';
-
-configure({adapter: new Adapter()});
-
+Enzyme.configure({ adapter: new Adapter() });
 const mock = {
-  questions: [
-    {
-      type: `genre`,
-      genre: `rock`,
-      answers: [
-        {
-          src: snapshotURL,
-          genre: `rock`,
-        },
-      ],
-    },
-    {
-      type: `artist`,
-      song: {
-        artist: `One`,
-        src: snapshotURL,
-      },
-      answers: [
-        {
-          picture: ``,
-          artist: `One`,
-        },
-      ],
-    }
-  ],
+    questions: [{
+        type: 'genre',
+        genre: 'rock',
+        answers: [{
+                src: '',
+                genre: 'rock',
+            },
+            {
+                src: '',
+                genre: 'rap',
+            },
+            {
+                src: '',
+                genre: 'indi',
+            },
+            {
+                src: '',
+                genre: 'jazz',
+            },
+        ],
+    }]
 };
 
-describe(`e2e test App`, () => {
-  it(`Question answer switches to another question`, () => {
-    // const {questions} = mock;
-    // const app = mount(<App
-    //   errorCount={0}
-    //   gameTime={0}
-    //   questions={questions}
-    // />);
+it('on click om welocomeScreen App switches to the first question', () => {
+            const { questions } = mock;
+            const app = mount( < App mistakes = { 0 }
+                minutes = { 0 }
+                questions = { questions }
+                //   playClickHandler ={playClickHandler}
+                />);
 
-    // app.setState({
-    //   question: 0,
-    // });
-    // app.update();
+                const button = app.find('button'); button.simulate('click'); app.update(); // ПОЛНОСТЬЮ ПЕРЕСТРАИВАЕТ КОМПОНЕНТ ПОСЛЕ ТОГО КАК ЧТО-ТО ПРОИЗОШЛО
 
-    // const form = app.find(`form`);
-    // form.simulate(`submit`, {
-    //   preventDefault() { },
-    // });
+                expect(app.state(`question`)).toEqual(0);
+                // const currentQuestion = app.state(``);
 
-    // expect(app.state(`question`)).toEqual(1);
-  });
-
-  it(`Last question answer leads to the first screen`, () => {
-    // const {questions} = mock;
-    // const app = mount(<App
-    //   errorCount={0}
-    //   gameTime={0}
-    //   questions={questions}
-    // />);
-
-    // app.setState({
-    //   question: questions.length - 1,
-    // });
-    // app.update();
-
-    // const form = app.find(`form`);
-    // form.simulate(`change`, {
-    //   preventDefault() { }
-    // });
-
-    // expect(app.state(`question`)).toEqual(-1);
-  });
-});
+                const title = app.find(`.game__title`)
+                expect(title).toHaveLength(1); expect(title.text().indexOf(`rock`)).toBeGreaterThanOrEqual(0);
+            });

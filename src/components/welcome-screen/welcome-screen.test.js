@@ -1,12 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import WelcomScreen from './welcome-screen';
+import WelcomeScreen from './welcome-screen'
 
-describe(`Test WelcomScreen`, () => {
-  it(`Test WelcomScreen renderer`, () => {
-    const tree = renderer
-      .create(<WelcomScreen gameTime={0} errorCount={0} onClick={jest.fn()} />)
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-  });
+it('renderes correctly WelcomeScreen', () => {
+  const tree = renderer.create(
+    <WelcomeScreen
+      Screen gameTime={0}
+      errorCount={0}
+    />).toJSON();
+  expect(tree).toMatchSnapshot
 });

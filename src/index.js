@@ -1,52 +1,24 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import {createStore, applyMiddleware} from 'redux';
-import {Provider} from 'react-redux';
-import thunk from 'redux-thunk';
-import {composeWithDevTools} from 'redux-devtools-extension';
-
-import reducer from './reducer/index.js';
-import {createAPI} from './api';
-import {Operation} from "./reducer/data/data";
-import {Operation as UserOperation} from "./reducer/user/user";
-
-import App from './components/app/app';
-
-import withScreenSwitch from './hocs/with-screen-switch/with-screen-switch';
-
-const mainContainer = document.querySelector(`.main`);
+import App from './components/app/app.jsx';
+import questions from './mocks/questions';
 
 const settings = {
-  gameTime: 5,
-  errorCount: 11,
+    gameTime: 5,
+    errorCount: 3,
+    // currentLevel: -1,  
 };
 
-const AppWrapped = withScreenSwitch(App);
 
+// console.log('Страница Index');
+// console.log(questions);
 const init = () => {
-  const api = createAPI(() => {
-    history.pushState(null, null, `/login`);
-    store.dispatch(UserOperation.requireAuthorization(true));
-  });
-
-  const store = createStore(
-      reducer,
-      composeWithDevTools(
-          applyMiddleware(thunk.withExtraArgument(api))
-      )
-  );
-
-  store.dispatch(Operation.loadQuestions());
-  store.dispatch(UserOperation.checkAuthorization());
-
   ReactDOM.render(
-      <Provider store={store}>
-        <AppWrapped
-          errorCount={settings.errorCount}
-          gameTime={settings.gameTime}
-        />
-      </Provider>,
-      mainContainer
+      <App
+        settings={settings}
+        questions={questions}
+      />,
+      document.querySelector(`.main`)
   );
 };
 
